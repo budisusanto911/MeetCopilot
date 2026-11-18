@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MeetCopilot</title>
+  <link rel="stylesheet" href="sidepanel.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-row">
+      <span class="brand-title">MeetCopilot</span>
+      <span id="bridgeBadge" class="badge badge-offline">Bridge Offline</span>
+      <span id="providerBadge" class="badge badge-muted">Tier-0</span>
+    </div>
+    <div class="metrics-row">
+      <span id="tokenMeter" class="metric">Token: 0 · Hemat: 0</span>
+      <span id="vadMeter" class="metric">Caption/Mic: Siap</span>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button id="tabLive" class="tab active" data-tab="live" type="button">Live Copilot</button>
+      <button id="tabSetup" class="tab" data-tab="setup" type="button">Context &amp; AI</button>
+    </nav>
+  </header>
+
+  <main id="panelLive" class="panel active">
+    <section class="controls-bar">
+      <button id="btnToggleCapture" class="btn btn-primary" type="button">
+        Mulai Tab Audio VAD
+      </button>
+      <button id="btnToggleMic" class="btn btn-secondary" type="button">
+        Mic Ruangan
+      </button>
+      <button id="btnClearFeed" class="btn btn-ghost" type="button" title="Bersihkan feed">
+        Reset
+      </button>
+    </section>
+
+    <form id="manualForm" class="manual-box">
+      <input
+        id="manualInput"
+        type="text"
+        placeholder="Tes cepat: ketik/tempel kalimat Inggris lalu Enter..."
+        autocomplete="off"
+      />
+      <button class="btn btn-secondary" type="submit">Kirim</button>
+    </form>
+
+    <section id="feed" class="feed" aria-live="polite">
+      <div class="empty-state">
+        <p><strong>Siap mendampingi meeting!</strong></p>
+        <p>Aktifkan <em>Live Captions (CC)</em> di Google Meet/Teams/Zoom untuk mode <strong>0 biaya STT</strong>, atau klik <em>Mulai Tab Audio VAD</em>.</p>
+      </div>
+    </section>
+  </main>
+
+  <main id="panelSetup" class="panel">
+    <form id="settingsForm" class="setup-form">
+      <fieldset>
+        <legend>Koneksi Local Bridge</legend>
+        <label>
+          Bridge HTTP URL
+          <input id="bridgeUrl" type="url" value="http://127.0.0.1:8787" required />
+        </label>
+        <label>
+          Pair Token (opsional jika localhost)
+          <input id="pairToken" type="password" placeholder="BRIDGE_PAIR_TOKEN" />
+        </label>
+        <label>
+          Nama Kamu di Meeting (agar ucapan sendiri di-skip)
+          <input id="selfName" type="text" placeholder="Contoh: Budi" />
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>AI Gratis (Free Waterfall)</legend>
+        <label>
+          NVIDIA NIM API Key (Primary)
+          <input id="nvidiaKey" type="password" placeholder="nvapi-..." />
+        </label>
+        <label>
+          NVIDIA Model
+          <input id="nvidiaModel" type="text" value="nvidia/nemotron-3-ultra-550b-a55b" />
+        </label>
+        <label>
+          Groq API Key (Fallback #1)
+          <input id="groqKey" type="password" placeholder="gsk_..." />
+        </label>
+        <label>
+          Gemini API Key (Fallback #2)
+          <input id="geminiKey" type="password" placeholder="AIza..." />
+        </label>
+        <label class="checkbox-row">
+          <input id="ollamaEnabled" type="checkbox" />
+          Aktifkan Ollama Lokal (Offline / NDA Mode)
+        </label>
+        <button id="btnSaveProviders" class="btn btn-primary" type="button">
+          Simpan Konfigurasi AI
+        </button>
+      </fieldset>
+
+      <fieldset>
+        <legend>Konteks Dokumen Laptop (Local RAG)</legend>
+        <label>
+          Peran / Topik Meeting
+          <input id="userGoal" type="text" placeholder="Contoh: Backend Engineer Weekly Sync" />
+        </label>
+        <label>
+          Folder / File Referensi di Laptop (1 path per baris)
+          <textarea id="contextDirs" rows="3" placeholder="/home/user/docs/project&#10;/home/user/cv.pdf"></textarea>
+        </label>
+        <div class="btn-row">
+          <button id="btnIndexDocs" class="btn btn-secondary" type="button">Index ke Vault</button>
+          <button id="btnPackGlossary" class="btn btn-primary" type="button">Pack Cheat Sheet</button>
+        </div>
+        <p id="setupStatus" class="status-text"></p>
+      </fieldset>
+    </form>
+  </main>
+
+  <script type="module" src="sidepanel.js"></script>
+</body>
+</html>

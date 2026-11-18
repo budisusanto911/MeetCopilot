@@ -1,0 +1,16 @@
+# Secrets & local runtime config
+.env
+.env.local
+*.env
+.vault/
+*.db
+*.sqlite
+*.sqlite3
+
+# Dependencies & build artifacts
+node_modules/
+dist/
+build/
+__pycache__/
+*.pyc
+.DS_Store
